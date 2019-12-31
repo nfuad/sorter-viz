@@ -1,7 +1,8 @@
 <script>
   import GHCorner from "./components/GHCorner.svelte";
   import P5Canvas from "./components/P5Canvas.svelte";
-  import Footer from './components/Footer.svelte'
+  import Footer from "./components/Footer.svelte";
+  import Nav from './components/Nav.svelte'
 
   import {
     bogoSort,
@@ -17,25 +18,22 @@
     shellSort
   } from "./algorithms";
 
-  const sketch = function(p5) {
-    const FRAME_RATE = 60;
+  const sketch = p5 => {
     const CONTROL_HEIGHT = 20;
     const TILE_WIDTH = 20;
-    const DRAW_FRAMERATE = false;
-    const DEFAULT_ALGO = "mergeSort";
-
+    const DEFAULT_ALGORITHM = "Merge Sort";
     const SORT_CLASSES = {
-      bubble: bubbleSort,
-      insertion: insertionSort,
-      selection: selectionSort,
-      "quickSort (hoare)": quickSortHoare,
-      "quickSort (lomuto)": quickSortLomuto,
-      bogoSort: bogoSort,
-      mergeSort: mergeSort,
-      heapSort: heapSort,
-      shellSort: shellSort,
-      "radixSort (LSD)": radixSortLSD,
-      combSort: combSort
+      "Bubble Sort": bubbleSort,
+      "Insertion Sort": insertionSort,
+      "Selection Sort": selectionSort,
+      "Quick Sort (hoare)": quickSortHoare,
+      "Quick Sort (lomuto)": quickSortLomuto,
+      "Bogo Sort": bogoSort,
+      "Merge Sort": mergeSort,
+      "Heap Sort": heapSort,
+      "Shell Sort": shellSort,
+      "Radix Sort (LSD)": radixSortLSD,
+      "Comb Sort": combSort
     };
 
     let N;
@@ -43,14 +41,14 @@
     let values;
     let sorters;
     let sortersFinished;
-    let sel;
+    let select;
 
     p5.setup = () => {
-      p5.createCanvas(p5.windowWidth / 1.3, p5.windowHeight / 1.3);
+      p5.createCanvas(p5.windowWidth / 1.4, p5.windowHeight / 1.4);
       p5.colorMode(p5.HSL, 360, 100, 100);
-      p5.frameRate(FRAME_RATE);
+      p5.frameRate(60);
 
-      setupUI(DEFAULT_ALGO);
+      setupUI(DEFAULT_ALGORITHM);
 
       N = Math.floor(p5.width / TILE_WIDTH);
       M = Math.floor(p5.height / TILE_WIDTH);
@@ -58,24 +56,19 @@
       values = new Array(M);
       sorters = new Array(M);
 
-      startSorting(DEFAULT_ALGO);
-
-      p5.textSize(20);
-      p5.textStyle(p5.BOLD);
-      p5.textAlign(p5.RIGHT);
+      startSorting(DEFAULT_ALGORITHM);
     };
 
-    function setupUI(initialValue) {
-      sel = p5.createSelect();
-      sel.position(10, 10);
+    const setupUI = initialValue => {
+      select = p5.createSelect();
       Object.keys(SORT_CLASSES).forEach(k => {
-        sel.option(k);
+        select.option(k);
       });
-      sel.value(initialValue);
-      sel.changed(() => startSorting(sel.value()));
-    }
+      select.value(initialValue);
+      select.changed(() => startSorting(select.value()));
+    };
 
-    function startSorting(algorithm) {
+    const startSorting = algorithm => {
       values = new Array(M);
       sorters = new Array(M);
       sortersFinished = new Array(M);
@@ -89,7 +82,7 @@
         sorters[i] = SORT_CLASSES[algorithm](values[i]);
         sortersFinished[i] = false;
       }
-    }
+    };
 
     p5.draw = () => {
       for (let i = 0; i < M; i++) {
@@ -104,17 +97,11 @@
           p5.rect(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
         }
       }
-
-      if (DRAW_FRAMERATE) drawFrameRate();
     };
-
-    function drawFrameRate() {
-      fill(255, 0, 0);
-      text(Math.floor(frameRate()), width - 30, 30);
-    }
   };
 </script>
 
+<Nav />
 <GHCorner />
 <P5Canvas sketch="{sketch}" />
-<Footer/>
+<Footer />
