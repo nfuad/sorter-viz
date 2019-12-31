@@ -1,7 +1,8 @@
 <script>
-  import GHCorner from "./GHCorner.svelte";
-  import P5Canvas from "./P5Canvas.svelte";
-  
+  import GHCorner from "./components/GHCorner.svelte";
+  import P5Canvas from "./components/P5Canvas.svelte";
+  import Footer from './components/Footer.svelte'
+
   import {
     bogoSort,
     bubbleSort,
@@ -16,7 +17,7 @@
     shellSort
   } from "./algorithms";
 
-  let sketch = function(p5) {
+  const sketch = function(p5) {
     const FRAME_RATE = 60;
     const CONTROL_HEIGHT = 20;
     const TILE_WIDTH = 20;
@@ -116,10 +117,4 @@
 
 <GHCorner />
 <P5Canvas sketch="{sketch}" />
-<footer>
-  Created with &gt;3 by
-  <a href="https://nafis.co" target="_blank">Nafis Fuad</a> with
-  <a href="https://svelte.dev/" target="_blank">Svelte</a> and
-  <a href="https://p5js.org" target="_blank">P5.js</a>. Find the source code
-  <a href="https://github.com/nfuad">here on GitHub</a>.
-</footer>
+<Footer/>
