@@ -10,4 +10,4 @@
   export let sketch;
 </script>
 
-<div {id}></div>
+<div {id} />
