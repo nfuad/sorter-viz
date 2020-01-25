@@ -16,72 +16,81 @@
   } from "../../algorithms";
 
   const sketch = p5 => {
-    const GET_SORTER = (sorter, values) => {
+    const CONTROL_HEIGHT = 20;
+    const TILE_WIDTH = 20;
+
+    const GET_SORTER = sorter => {
       const sorters = {
-        bubbleSort: () => bubbleSort(values),
-        insertionSort: () => insertionSort(values),
-        selectionSort: () => selectionSort(values),
-        quickSortHoare: () => quickSortHoare(values),
-        quickSortLomuto: () => quickSortLomuto(values),
-        bogoSort: () => bogoSort(values),
-        mergeSort: () => mergeSort(values),
-        heapSort: () => heapSort(values),
-        shellSort: () => shellSort(values),
-        radixSortLSD: () => radixSortLSD(values),
-        combSort: () => combSort(values),
-        default: () => mergeSort(values)
+        bubbleSort: () => bubbleSort,
+        insertionSort: () => insertionSort,
+        selectionSort: () => selectionSort,
+        quickSortHoare: () => quickSortHoare,
+        quickSortLomuto: () => quickSortLomuto,
+        bogoSort: () => bogoSort,
+        mergeSort: () => mergeSort,
+        heapSort: () => heapSort,
+        shellSort: () => shellSort,
+        radixSortLSD: () => radixSortLSD,
+        combSort: () => combSort,
+        default: () => mergeSort
       };
+
       return (sorters[sorter] || sorters["default"])();
     };
 
-    let values,
-      sorters,
-      sortersFinished,
-      selected,
-      numbers,
-      columnWidth,
-      sorter,
-      t0;
+    let N;
+    let M;
+    let values;
+    let sorters;
+    let sortersFinished;
+    let select;
+
+    window.addEventListener("SELECT_EVENT", evt =>
+      startSorting(evt.detail.selected)
+    );
 
     p5.setup = () => {
       p5.createCanvas(p5.windowWidth / 1.4, p5.windowHeight / 1.4);
-      reset();
-      t0 = performance.now();
-      p5.fill(255);
-
-      window.addEventListener("SELECT_EVENT", evt => {
-        console.log(evt);
-        selected = evt.detail.selected;
-        reset();
-      });
+      p5.colorMode(p5.HSL, 360, 100, 100);
+      p5.frameRate(60);
+      N = Math.floor(p5.width / TILE_WIDTH);
+      M = Math.floor(p5.height / TILE_WIDTH);
+      values = new Array(M);
+      sorters = new Array(M);
+      startSorting();
     };
 
-    const reset = () => {
-      numbers = Array(50)
-        .fill()
-        .map(() => p5.random(1));
-      columnWidth = p5.width / numbers.length;
-      sorter = GET_SORTER(selected, numbers);
+    const startSorting = algorithm => {
+      values = new Array(M);
+      sorters = new Array(M);
+      sortersFinished = new Array(M);
+
+      for (let i = 0; i < M; i++) {
+        values[i] = new Array(N);
+        for (let j = 0; j < N; j++) {
+          values[i][j] = j;
+        }
+        p5.shuffle(values[i], true);
+        sorters[i] = GET_SORTER(algorithm)(values[i]);
+        sortersFinished[i] = false;
+      }
     };
 
     p5.draw = () => {
-      p5.background("#333");
-
-      for (let i = 0; i < numbers.length; i++) {
-        let columnHeight = p5.map(numbers[i], 0, 1, 0, p5.height);
-        p5.rect(i * columnWidth, p5.height, columnWidth, -columnHeight);
-      }
-
-      if (sorter.next().done) {
-        let time = p5.round(performance.now() - t0) / 1000;
-        p5.print("Done!");
-        p5.print(
-          `Sorted ${numbers.length} elements in approximately ${time} seconds.`
-        );
-        // p5.noLoop();
+      for (let i = 0; i < M; i++) {
+        if (sorters[i].next().done) {
+          sortersFinished[i] = true;
+          continue;
+        }
+        for (let j = 0; j < N; j++) {
+          let c = p5.color(p5.map(values[i][j], 0, N, 0, 360), 100, 50);
+          p5.stroke(c);
+          p5.fill(c);
+          p5.rect(j * TILE_WIDTH, i * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
+        }
       }
     };
   };
 </script>
 
-<P5Canvas {sketch} id="v2" />
+<P5Canvas {sketch} id="v1" />
