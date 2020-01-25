@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "p5": "^0.10.2",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "svelte-routing": "^1.4.0"
   }
 }
