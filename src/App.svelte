@@ -1,4 +1,6 @@
 <script>
+  import { Router, Route } from "svelte-routing";
+  export let url = "";
   import Footer from "./components/Footer.svelte";
   import Nav from "./components/Nav.svelte";
   import Visualizer1 from "./components/visualizers/Visualizer1.svelte";
@@ -15,9 +17,12 @@
   }
 </style>
 
-<div class="wrapper">
-  <Nav />
-  <Visualizer1 />
-  <Visualizer2 />
-  <Footer />
-</div>
+<Router {url}>
+  <div class="wrapper">
+    <Nav />
+    <Route path="v1" component={Visualizer1} />
+    <Route path="v2" component={Visualizer2} />
+    <Route path="/" component={Visualizer1} />
+    <Footer />
+  </div>
+</Router>
