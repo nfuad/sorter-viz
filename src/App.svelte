@@ -8,12 +8,17 @@
 </script>
 
 <style>
+  :global(body) {
+    overflow: hidden;
+  }
+
   .wrapper {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
     width: 100%;
+    overflow: hidden;
   }
 </style>
 
