@@ -2,7 +2,7 @@
 
 Built this sorting visualizer to learn more about the sorting algorithms. View the project here: https://sorter-viz.now.sh.
 
-**_10 sorting algorithms have been implemented:_**
+**_10 sorting algorithms have been used:_**
 
 1. Bubble Sort
 2. Merge Sort
@@ -17,6 +17,8 @@ Built this sorting visualizer to learn more about the sorting algorithms. View t
 
 You can find the algorithms in the `algorithms` directory.
 This project uses Svelte and p5.js.
+
+Note: All the algorithms were not implemented solely by me.
 
 ### Developing Locally
 
