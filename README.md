@@ -1,6 +1,6 @@
 # Sorting Algorithms Visualizer
 
-Built this sorting visualizer to learn more about the sorting algorithms. View the project here: https://sorter-viz.now.sh.
+Built a sorting visualizer to gain a deeper understanding of sorting algorithms. View the project here: https://sorter-viz.now.sh.
 
 ![live demo image](./sorter.png)
 
