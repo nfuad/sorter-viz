@@ -2,6 +2,8 @@
 
 Built this sorting visualizer to learn more about the sorting algorithms. View the project here: https://sorter-viz.now.sh.
 
+![live demo image](./sorter.png)
+
 **_10 sorting algorithms have been used:_**
 
 1. Bubble Sort
